@@ -31,6 +31,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * Represents a MySQL database.
@@ -47,6 +48,7 @@ public class Database {
      * Makes a table from the given class.
      *
      * @param tableClass The class containing the table.
+     * @returns {@code True} if the table didn't exists and it was successfully created, else {@code false}.
      */
     public boolean makeTable(Class<?> tableClass) {
         if (!tableClass.isAnnotationPresent(Table.class)) {
@@ -74,10 +76,12 @@ public class Database {
      * Gets the table from MySQL.
      *
      * @param tableClass The class containing the table.
+     * @param key The column name.
+     * @param value The value of the column, your're looking for.
      * @param <T> The type of the class.
      * @return A constructed object of tableClass.
      */
-    public <T> Optional<T> getTable(Class<T> tableClass) {
+    public <T> Optional<T> getRowWhere(Class<T> tableClass, String key, String value) {
         if (!tableClass.isAnnotationPresent(Table.class)) {
             throw new UnsupportedOperationException("you need some milk you moron");
         }
@@ -103,9 +107,32 @@ public class Database {
     }
 
     /**
+     * Gets all the rows in a table.
+     *
+     * @param tableClass The class containing the table.
+     * @param <T> The type of the tableClass.
+     * @return All of the rows in that table.
+     */
+    public <T> Optional<Set<T>> getRows(Class<T> tableClass) {
+        if (!tableClass.isAnnotationPresent(Table.class)) {
+            throw new UnsupportedOperationException("you need some milk you moron");
+        }
+        Table table = tableClass.getAnnotation(Table.class);
+
+        if (!this.doesTableExist(table.name())) {
+            return Optional.empty();
+        }
+
+        List<ColumnModel> columns = getColumnsInClass(tableClass);
+
+        return Optional.empty();
+    }
+
+    /**
      * Adds the row to the table.
      *
      * @param tableObject The class containing the row.
+     * @returns {@code True} if the table exists and it successfully inserted the row, else {@code false}.
      */
     public boolean addRow(Object tableObject) {
         if (!tableObject.getClass().isAnnotationPresent(Table.class)) {
