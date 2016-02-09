@@ -8,8 +8,8 @@ plugins {
 }
 defaultTasks 'clean', 'licenseFormat'
 
-group 'com.cuberous'
-version '1.0-SNAPSHOT'
+group 'xyz.lexteam'
+version '1.0.0-SNAPSHOT'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8

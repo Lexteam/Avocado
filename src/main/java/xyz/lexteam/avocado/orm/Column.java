@@ -1,7 +1,7 @@
 /*
- * This file is part of ORM, licensed under the MIT License (MIT).
+ * This file is part of Avocado, licensed under the MIT License (MIT).
  *
- * Copyright (c) 2016, Qixalite <http://www.qixalite.com/>
+ * Copyright (c) 2016, Lexteam <http://www.lexteam.xyz/>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.cuberous.orm;
+package xyz.lexteam.avocado.orm;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -29,11 +29,29 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Represents a table in a MySQL database.
+ * Represents a column in a table.
+ *
+ * TODO: Currently this is very incomplete
  */
-@Target(ElementType.TYPE)
+@Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Table {
+public @interface Column {
 
     String name();
+
+    Type type();
+
+    enum Type {
+
+        // this is only a few of the types supported by MySQL
+        INT(Integer.class),
+        CHAR(Character.class),
+        TEXT(String.class);
+
+        private final Class<?> type;
+
+        Type(Class<?> type) {
+            this.type = type;
+        }
+    }
 }

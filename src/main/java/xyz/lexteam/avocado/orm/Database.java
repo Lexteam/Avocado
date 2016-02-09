@@ -1,7 +1,7 @@
 /*
- * This file is part of ORM, licensed under the MIT License (MIT).
+ * This file is part of Avocado, licensed under the MIT License (MIT).
  *
- * Copyright (c) 2016, Qixalite <http://www.qixalite.com/>
+ * Copyright (c) 2016, Lexteam <http://www.lexteam.xyz/>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.cuberous.orm;
+package xyz.lexteam.avocado.orm;
 
 import com.google.common.collect.Lists;
 
