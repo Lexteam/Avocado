@@ -34,12 +34,8 @@ import java.util.Properties;
  */
 public final class Connections {
 
-    public static Optional<Connection> newConnection(String host, int port, String database, String username,
-            String password) {
-        Properties connectionProps = new Properties();
-        connectionProps.put("user", username);
-        connectionProps.put("password", password);
-
+    public static Optional<Connection> newConnection(
+            String host, int port, String database, Properties connectionProps) {
         try {
             return Optional.of(
                     DriverManager.getConnection(String.format("jdbc:mysql://%s:%s/%s", host, port, database),
@@ -47,6 +43,41 @@ public final class Connections {
         } catch (SQLException e) {
             e.printStackTrace();
             return Optional.empty();
+        }
+    }
+
+    public static PropertiesBuilder propertiesBuilder() {
+        return new PropertiesBuilder();
+    }
+
+    public static class PropertiesBuilder {
+
+        private Optional<String> username = Optional.empty();
+        private Optional<String> password = Optional.empty();
+
+        protected PropertiesBuilder() {}
+
+        public PropertiesBuilder username(String username) {
+            this.username = Optional.of(username);
+            return this;
+        }
+
+        public PropertiesBuilder password(String password) {
+            this.password = Optional.of(password);
+            return this;
+        }
+
+        public Properties build() {
+            Properties connectionProps = new Properties();
+
+            if (this.username.isPresent()) {
+                connectionProps.put("user", username.get());
+            }
+            if (this.password.isPresent()) {
+                connectionProps.put("user", password.get());
+            }
+
+            return connectionProps;
         }
     }
 }

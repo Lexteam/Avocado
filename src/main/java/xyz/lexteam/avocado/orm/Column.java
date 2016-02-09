@@ -31,7 +31,7 @@ import java.lang.annotation.Target;
 /**
  * Represents a column in a table.
  *
- * TODO: Currently this is very incomplete
+ * TODO: Currently this is very incomplete; MySQL has many more data types, and settings for columns.
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)

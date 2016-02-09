@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'maven'
 
     id 'idea'
     id 'eclipse'
@@ -10,6 +11,8 @@ defaultTasks 'clean', 'licenseFormat'
 
 group 'xyz.lexteam'
 version '1.0.0-SNAPSHOT'
+description = "Avocado - A lightweight Java MySQL ORM."
+ext.url = 'http://www.lexteam.xyz/'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -30,6 +33,65 @@ license {
     strictCheck true
     mapping {
         java = 'SLASHSTAR_STYLE'
+    }
+}
+
+task javadocJar(type: Jar, dependsOn: 'javadoc') {
+    from javadoc.destinationDir
+    classifier = 'javadoc'
+}
+
+task sourcesJar(type: Jar, dependsOn: 'classes') {
+    from sourceSets.main.allSource
+    classifier = 'sources'
+}
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: 'http://lex1.lexteam.xyz:8888/repository/internal/') {
+                authentication(userName: lexRepoUser, password: lexRepoPass)
+            }
+
+            snapshotRepository(url: 'http://lex1.lexteam.xyz:8888/repository/snapshots/') {
+                authentication(userName: lexRepoUser, password: lexRepoPass)
+            }
+
+            pom {
+                artifactId = project.archivesBaseName.toLowerCase()
+
+                project {
+                    name = project.archivesBaseName
+                    description = project.description
+                    packaging = 'jar'
+                    url = project.url
+
+                    scm {
+                        url = "https://github.com/Lexteam/Avocado"
+                        connection = "scm:git:https://github.com/Lexteam/Avocado.git"
+                        developerConnection = "scm:git:git@github.com:Lexteam/Avocado.git"
+                    }
+
+                    issueManagement {
+                        system = 'GitHub'
+                        url = 'https://github.com/Lexteam/Avocado/issues'
+                    }
+
+                    licenses {
+                        license {
+                            name = 'MIT License'
+                            url = 'http://opensource.org/licenses/MIT'
+                            distribution = 'repo'
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 

@@ -120,7 +120,7 @@ public class Database {
         List<ColumnModel> columns = getColumnsInClass(tableObject.getClass());
 
         try {
-            this.addRowStatement(table, tableObject, columns).execute();
+            this.insertIntoStatement(table, tableObject, columns).execute();
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
@@ -154,7 +154,7 @@ public class Database {
         return this.connection.prepareStatement(builder.toString());
     }
 
-    private PreparedStatement addRowStatement(Table table, Object tableObject, List<ColumnModel> columns) throws
+    private PreparedStatement insertIntoStatement(Table table, Object tableObject, List<ColumnModel> columns) throws
             SQLException {
         StringBuilder builder = new StringBuilder();
         builder.append(String.format("INSERT INTO %s (", table.name()));
@@ -198,6 +198,7 @@ public class Database {
 
     private boolean doesTableExist(String name) {
         // thanks to http://stackoverflow.com/questions/8829102/mysql-check-if-table-exists-without-using-select-from
+        // TODO: apparently I can check properly using the information schema
 
         try {
             this.connection.prepareStatement(String.format("SELECT 1 FROM %s LIMIT 1;", name));
