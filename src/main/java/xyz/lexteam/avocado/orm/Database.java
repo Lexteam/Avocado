@@ -48,7 +48,7 @@ public class Database {
      * Makes a table from the given class.
      *
      * @param tableClass The class containing the table.
-     * @returns {@code True} if the table didn't exists and it was successfully created, else {@code false}.
+     * @return {@code True} if the table didn't exists and it was successfully created, else {@code false}.
      */
     public boolean makeTable(Class<?> tableClass) {
         if (!tableClass.isAnnotationPresent(Table.class)) {
@@ -132,7 +132,7 @@ public class Database {
      * Adds the row to the table.
      *
      * @param tableObject The class containing the row.
-     * @returns {@code True} if the table exists and it successfully inserted the row, else {@code false}.
+     * @return {@code True} if the table exists and it successfully inserted the row, else {@code false}.
      */
     public boolean addRow(Object tableObject) {
         if (!tableObject.getClass().isAnnotationPresent(Table.class)) {
